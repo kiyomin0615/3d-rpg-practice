@@ -12,14 +12,21 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private InputManager input = new InputManager();
+    public static InputManager Input {
+        get {
+            return Instance.input;
+        }
+    }
+
     void Start()
     {
-
+        Init();
     }
 
     void Update()
     {
-        
+        Input.OnUpdate();
     }
 
     static void Init() {
