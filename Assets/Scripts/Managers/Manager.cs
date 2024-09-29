@@ -19,6 +19,13 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private ResourceManager resource = new ResourceManager();
+    public static ResourceManager Resource {
+        get {
+            return Instance.resource;
+        }
+    }
+
     void Start()
     {
         Init();
