@@ -8,49 +8,64 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float speed = 10.0f;
 
-    bool destIsSet = false;
     Vector3 destPosition;
+
+    enum PlayerState {
+        Idle,
+        Moving,
+        Dead
+    }
+
+    PlayerState state = PlayerState.Idle;
 
     void Start ()
     {
         // subscribe
-        Manager.Input.KeyAction -= OnKeyInput;
-        Manager.Input.KeyAction += OnKeyInput;
         Manager.Input.MouseAction -= OnMouseInput;
         Manager.Input.MouseAction += OnMouseInput;
     }
 
     void Update ()
     {
-        MoveToDest();
+        // state pattern
+        switch (state) {
+            case PlayerState.Idle:
+                UpdateIdle();
+                break;
+            case PlayerState.Moving:
+                UpdateMoving();
+                break;
+            case PlayerState.Dead:
+                UpdateDead();
+                break;
+        }
     }
 
-    void OnKeyInput() {
-        if (Input.GetKey(KeyCode.W)) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.2f);
-            transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
+    void UpdateIdle() {
+        Animator animator = GetComponent<Animator>();
+        animator.SetFloat("speed", 0.0f);
+    }
+
+    void UpdateMoving() {
+        Vector3 dir = destPosition - transform.position;
+
+        if (dir.magnitude < 0.00001f) {
+            state = PlayerState.Idle;
         }
-        if (Input.GetKey(KeyCode.S)) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.2f);
-            transform.Translate(Vector3.back * Time.deltaTime * speed, Space.World);
-        }
-        if (Input.GetKey(KeyCode.A)) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
-            transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
-        }
-        if (Input.GetKey(KeyCode.D)) {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
-            transform.Translate(Vector3.right * Time.deltaTime * speed, Space.World);
+        else {
+            float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+            transform.position += dir.normalized * moveDistance;
+            // transform.LookAt(destPosition);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
 
-        destIsSet = false;
+        Animator animator = GetComponent<Animator>();
+        animator.SetFloat("speed", speed);
     }
+
+    void UpdateDead() {}
 
     void OnMouseInput(Definition.MouseEvent mouseEvent) {
-        if (mouseEvent != Definition.MouseEvent.Click) {
-            return;
-        }
-
         RaycastHit hitInfo;
         int layerMask = LayerMask.GetMask("Wall");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -58,22 +73,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f , Color.red, 1.0f);
         if (Physics.Raycast(ray, out hitInfo, 100.0f, layerMask)) {
             destPosition = hitInfo.point;
-            destIsSet = true;
-        }
-    }
-
-    void MoveToDest() {
-        if (destIsSet) {
-            Vector3 dir = destPosition - transform.position;
-            if (dir.magnitude < 0.00001f) {
-                destIsSet = false;
-            }
-            else {
-                float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-                transform.position += dir.normalized * moveDistance;
-                // transform.LookAt(destPosition);
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-            }
+            state = PlayerState.Moving;
         }
     }
 }

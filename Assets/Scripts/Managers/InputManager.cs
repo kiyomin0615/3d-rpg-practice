@@ -5,17 +5,12 @@ using UnityEngine;
 
 public class InputManager
 {
-    public Action KeyAction = null;
     public Action<Definition.MouseEvent> MouseAction = null;
 
     bool pressed = false;
 
     // check user input
     public void OnUpdate() {
-        if (Input.anyKey && KeyAction != null) {
-            KeyAction.Invoke();
-        }
-
         if (Input.GetMouseButton(1)) {
             MouseAction.Invoke(Definition.MouseEvent.Press);
             pressed = true;
