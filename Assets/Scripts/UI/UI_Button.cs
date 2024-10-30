@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UI_Button : UI_Base
 {
@@ -18,6 +19,11 @@ public class UI_Button : UI_Base
         ScoreText
     }
 
+    enum Images
+    {
+        ItemIcon
+    }
+
     enum GameObjects
     {
         TestObject
@@ -27,13 +33,13 @@ public class UI_Button : UI_Base
     {
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
 
+        // temp
         Get<TextMeshProUGUI>((int)Texts.ScoreText).text = "TEST";
-    }
-
-    public void OnButtonClicked()
-    {
-
+        GameObject itemIcon = Get<Image>((int)Images.ItemIcon).gameObject;
+        UI_EventHandler eventHandler = itemIcon.GetComponent<UI_EventHandler>();
+        eventHandler.OnDragHandler += (PointerEventData eventData) => { itemIcon.transform.position = eventData.position; };
     }
 }
