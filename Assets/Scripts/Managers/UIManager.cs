@@ -47,7 +47,7 @@ public class UIManager
         T scene = Utility.GetOrAddComponent<T>(ui);
         this.scene = scene;
 
-        ui.transform.SetParent(Root.transform);
+        ui.transform.SetParent(Root.transform, false);
 
         return scene;
     }
@@ -61,9 +61,22 @@ public class UIManager
         T popup = Utility.GetOrAddComponent<T>(ui);
         popupStack.Push(popup);
 
-        ui.transform.SetParent(Root.transform);
+        ui.transform.SetParent(Root.transform, false);
 
         return popup;
+    }
+
+    public T GenerateSubItemUI<T>(Transform parent = null, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject ui = Manager.Resource.Instantiate($"UI/SubItem/{name}"); // Assets/Resources/Prefabs/UI/SubItem/{name}
+
+        if (parent != null)
+            ui.transform.SetParent(parent, false); // worldPositionStays가 true이면, item의 scale이 변경된다
+
+        return Utility.GetOrAddComponent<T>(ui);
     }
 
     public void ClosePopupUI()

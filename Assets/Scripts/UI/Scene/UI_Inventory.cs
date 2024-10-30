@@ -28,10 +28,8 @@ public class UI_Inventory : UI_Scene
 
         for (int i = 0; i < 12; i++)
         {
-            GameObject item = Manager.Resource.Instantiate("UI/Scene/UI_Item");
-            item.transform.SetParent(gridPanel.transform, false); // worldPositionStays가 true이면, item의 scale이 변경된다
-            UI_Item itemComponent = Utility.GetOrAddComponent<UI_Item>(item);
-            itemComponent.SetItemInfo($"ITEM {i + 1}");
+            UI_Item item = Manager.UI.GenerateSubItemUI<UI_Item>(gridPanel.transform);
+            item.SetItemInfo($"ITEM {i + 1}");
         }
     }
 }

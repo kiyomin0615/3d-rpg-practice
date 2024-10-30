@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UI_Item : UI_Base
 {
-    string name;
+    string itemName;
 
     enum GameObjects
     {
@@ -25,14 +25,14 @@ public class UI_Item : UI_Base
         Bind<GameObject>(typeof(GameObjects));
 
         GameObject itemIcon = Get<GameObject>((int)GameObjects.ItemIcon);
-        AddUIEventHandler(itemIcon, (PointerEventData eventData) => { Debug.Log($"Item Clicked : {name}"); }, Definition.UIEvent.Click);
+        AddUIEventHandler(itemIcon, (PointerEventData eventData) => { Debug.Log($"Item Clicked : {this.itemName}"); }, Definition.UIEvent.Click);
 
         TextMeshProUGUI itemName = Get<GameObject>((int)GameObjects.ItemName).GetComponent<TextMeshProUGUI>();
-        itemName.text = this.name;
+        itemName.text = this.itemName;
     }
 
     public void SetItemInfo(string name)
     {
-        this.name = name;
+        this.itemName = name;
     }
 }
