@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
 
     Vector3 destPosition;
 
-    enum PlayerState {
+    enum PlayerState
+    {
         Idle,
         Moving,
         Dead
@@ -18,17 +19,21 @@ public class PlayerController : MonoBehaviour
 
     PlayerState state = PlayerState.Idle;
 
-    void Start ()
+    void Start()
     {
         // subscribe
         Manager.Input.MouseAction -= OnMouseInput;
         Manager.Input.MouseAction += OnMouseInput;
+
+        // temp
+        Manager.Resource.Instantiate("UI/UI_Button");
     }
 
-    void Update ()
+    void Update()
     {
         // state pattern
-        switch (state) {
+        switch (state)
+        {
             case PlayerState.Idle:
                 UpdateIdle();
                 break;
@@ -41,18 +46,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void UpdateIdle() {
+    void UpdateIdle()
+    {
         Animator animator = GetComponent<Animator>();
         animator.SetFloat("speed", 0.0f);
     }
 
-    void UpdateMoving() {
+    void UpdateMoving()
+    {
         Vector3 dir = destPosition - transform.position;
 
-        if (dir.magnitude < 0.00001f) {
+        if (dir.magnitude < 0.00001f)
+        {
             state = PlayerState.Idle;
         }
-        else {
+        else
+        {
             float moveDistance = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
             transform.position += dir.normalized * moveDistance;
             // transform.LookAt(destPosition);
@@ -63,15 +72,17 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("speed", speed);
     }
 
-    void UpdateDead() {}
+    void UpdateDead() { }
 
-    void OnMouseInput(Definition.MouseEvent mouseEvent) {
+    void OnMouseInput(Definition.MouseEvent mouseEvent)
+    {
         RaycastHit hitInfo;
         int layerMask = LayerMask.GetMask("Wall");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f , Color.red, 1.0f);
-        if (Physics.Raycast(ray, out hitInfo, 100.0f, layerMask)) {
+        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
+        if (Physics.Raycast(ray, out hitInfo, 100.0f, layerMask))
+        {
             destPosition = hitInfo.point;
             state = PlayerState.Moving;
         }

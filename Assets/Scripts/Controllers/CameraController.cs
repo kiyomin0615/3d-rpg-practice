@@ -11,28 +11,29 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     GameObject player = null;
 
-    void Start()
+    void LateUpdate()
     {
-        
-    }
-
-    void LateUpdate() {
-        if (mode == Definition.CameraMode.QuaterView) {
+        if (mode == Definition.CameraMode.QuaterView)
+        {
             RaycastHit hitInfo;
             int layerMask = LayerMask.GetMask("Wall");
 
-            if (Physics.Raycast(player.transform.position, offset, out hitInfo, offset.magnitude, layerMask)) {
+            if (Physics.Raycast(player.transform.position, offset, out hitInfo, offset.magnitude, layerMask))
+            {
                 float distance = (hitInfo.point - player.transform.position).magnitude * 0.8f;
                 transform.position = player.transform.position + offset.normalized * distance;
                 transform.LookAt(player.transform.position + Vector3.up);
-            } else {
+            }
+            else
+            {
                 transform.position = player.transform.position + offset;
                 transform.LookAt(player.transform);
             }
         }
     }
 
-    public void SetQuaterView() {
+    public void SetQuaterView()
+    {
         mode = Definition.CameraMode.QuaterView;
         offset = new Vector3(0, 6, -5);
     }

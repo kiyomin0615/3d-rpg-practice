@@ -5,23 +5,29 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     private static Manager instance;
-    public static Manager Instance {
-        get {
+    public static Manager Instance
+    {
+        get
+        {
             Init();
             return instance;
         }
     }
 
     private InputManager input = new InputManager();
-    public static InputManager Input {
-        get {
+    public static InputManager Input
+    {
+        get
+        {
             return Instance.input;
         }
     }
 
     private ResourceManager resource = new ResourceManager();
-    public static ResourceManager Resource {
-        get {
+    public static ResourceManager Resource
+    {
+        get
+        {
             return Instance.resource;
         }
     }
@@ -36,7 +42,8 @@ public class Manager : MonoBehaviour
         Input.OnUpdate();
     }
 
-    static void Init() {
+    static void Init()
+    {
         GameObject manager = GameObject.Find("@Manager");
         if (manager == null)
         {
