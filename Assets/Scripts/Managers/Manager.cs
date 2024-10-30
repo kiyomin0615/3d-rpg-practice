@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+    // Manager Singleton
     private static Manager instance;
     public static Manager Instance
     {
@@ -14,6 +15,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Input Manager
     private InputManager input = new InputManager();
     public static InputManager Input
     {
@@ -23,12 +25,23 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Resource Manager
     private ResourceManager resource = new ResourceManager();
     public static ResourceManager Resource
     {
         get
         {
             return Instance.resource;
+        }
+    }
+
+    // UI Manager
+    private UIManager ui = new UIManager();
+    public static UIManager UI
+    {
+        get
+        {
+            return Instance.ui;
         }
     }
 
