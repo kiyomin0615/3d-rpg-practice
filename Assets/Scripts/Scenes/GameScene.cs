@@ -17,8 +17,8 @@ public class GameScene : BaseScene
         Manager.UI.OpenSceneUI<UI_Inventory>();
     }
 
-    public override void ClearScene()
+    public override void Clear()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Game Scene Clear.");
     }
 }

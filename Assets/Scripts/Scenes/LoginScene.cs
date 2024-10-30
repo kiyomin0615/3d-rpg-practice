@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoginScene : BaseScene
 {
-    public override void ClearScene()
-    {
-        throw new System.NotImplementedException();
-    }
-
     void Start()
     {
         Init();
+    }
+
+    void Update()
+    {
+        // temp
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Manager.Scene.LoadScene(Definition.SceneType.Game);
+        }
     }
 
     protected override void Init()
@@ -19,5 +24,10 @@ public class LoginScene : BaseScene
         base.Init();
 
         SceneType = Definition.SceneType.Login;
+    }
+
+    public override void Clear()
+    {
+        Debug.Log("Login Scene Clear.");
     }
 }

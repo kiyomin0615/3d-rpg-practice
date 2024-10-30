@@ -45,6 +45,16 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Scene Manager Extended
+    private SceneManagerEx scene = new SceneManagerEx();
+    public static SceneManagerEx Scene
+    {
+        get
+        {
+            return Instance.scene;
+        }
+    }
+
     void Start()
     {
         Init();

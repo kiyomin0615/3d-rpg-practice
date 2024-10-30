@@ -19,5 +19,5 @@ public abstract class BaseScene : MonoBehaviour
             Manager.Resource.Instantiate("UI/EventSystem");
     }
 
-    public abstract void ClearScene();
+    public abstract void Clear();
 }
