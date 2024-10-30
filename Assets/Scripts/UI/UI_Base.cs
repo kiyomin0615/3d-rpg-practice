@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Base : MonoBehaviour
@@ -35,5 +36,22 @@ public class UI_Base : MonoBehaviour
             return null;
 
         return objects[index] as T;
+    }
+
+    public static void AddUIEventHandler(GameObject go, Action<PointerEventData> cb, Definition.UIEvent evt = Definition.UIEvent.Click)
+    {
+        UI_EventHandler eventHandler = Utility.GetOrAddComponent<UI_EventHandler>(go);
+
+        switch (evt)
+        {
+            case Definition.UIEvent.Click:
+                eventHandler.OnClickHandler -= cb;
+                eventHandler.OnClickHandler += cb;
+                break;
+            case Definition.UIEvent.Drag:
+                eventHandler.OnDragHandler -= cb;
+                eventHandler.OnDragHandler += cb;
+                break;
+        }
     }
 }

@@ -37,9 +37,18 @@ public class UI_Button : UI_Base
         Bind<GameObject>(typeof(GameObjects));
 
         // temp
-        Get<TextMeshProUGUI>((int)Texts.ScoreText).text = "TEST";
+        GameObject clickButton = Get<Button>((int)Buttons.ClickButton).gameObject;
+        AddUIEventHandler(clickButton, OnButtonClicked, Definition.UIEvent.Click);
+
         GameObject itemIcon = Get<Image>((int)Images.ItemIcon).gameObject;
-        UI_EventHandler eventHandler = itemIcon.GetComponent<UI_EventHandler>();
-        eventHandler.OnDragHandler += (PointerEventData eventData) => { itemIcon.transform.position = eventData.position; };
+        AddUIEventHandler(itemIcon, (PointerEventData eventData) => { itemIcon.transform.position = eventData.position; }, Definition.UIEvent.Drag);
+    }
+
+    int score = 0;
+
+    public void OnButtonClicked(PointerEventData eventData)
+    {
+        score++;
+        Get<TextMeshProUGUI>((int)Texts.ScoreText).text = $"SCORE : {score}";
     }
 }
