@@ -5,10 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Button : MonoBehaviour
+public class UI_Button : UI_Base
 {
-    Dictionary<Type, UnityEngine.Object[]> objectDict = new Dictionary<Type, UnityEngine.Object[]>();
-
     enum Buttons
     {
         ClickButton
@@ -20,27 +18,22 @@ public class UI_Button : MonoBehaviour
         ScoreText
     }
 
+    enum GameObjects
+    {
+        TestObject
+    }
+
     void Start()
     {
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
-    }
+        Bind<GameObject>(typeof(GameObjects));
 
-    void Bind<T>(Type type) where T : UnityEngine.Object
-    {
-        // bind all ui elements
-        string[] names = Enum.GetNames(type);
-
-        UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
-        objectDict.Add(typeof(T), objects);
-
-        for (int i = 0; i < names.Length; i++)
-        {
-            objects[i] = Utility.FindChild<T>(gameObject, names[i], true);
-        }
+        Get<TextMeshProUGUI>((int)Texts.ScoreText).text = "TEST";
     }
 
     public void OnButtonClicked()
     {
+
     }
 }

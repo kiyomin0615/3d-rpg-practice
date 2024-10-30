@@ -34,4 +34,13 @@ public class Utility
 
         return null;
     }
+
+    public static GameObject FindChildGameObject(GameObject root, string name = null, bool recursive = false)
+    {
+        Transform childTransform = FindChild<Transform>(root, name, recursive);
+        if (childTransform == null)
+            return null;
+
+        return childTransform.gameObject;
+    }
 }
