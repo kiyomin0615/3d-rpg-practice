@@ -24,9 +24,6 @@ public class PlayerController : MonoBehaviour
         // subscribe
         Manager.Input.MouseAction -= OnMouseInput;
         Manager.Input.MouseAction += OnMouseInput;
-
-        // temp
-        Manager.UI.OpenSceneUI<UI_Inventory>();
     }
 
     void Update()

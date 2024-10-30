@@ -20,4 +20,12 @@ public class Definition
         Click,
         Drag,
     }
+
+    public enum SceneType
+    {
+        Unknown,
+        Login,
+        Lobby,
+        Game,
+    }
 }
