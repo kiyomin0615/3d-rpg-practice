@@ -26,10 +26,7 @@ public class PlayerController : MonoBehaviour
         Manager.Input.MouseAction += OnMouseInput;
 
         // temp
-        for (int i = 0; i < 5; i++)
-        {
-            Manager.UI.OpenPopupUI<UI_Button>();
-        }
+        Manager.UI.OpenSceneUI<UI_Inventory>();
     }
 
     void Update()
