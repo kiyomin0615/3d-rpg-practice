@@ -12,7 +12,19 @@ public class Stat
 }
 
 [Serializable]
-public class StatData
+public class StatData : IData<int, Stat>
 {
     public List<Stat> stats = new List<Stat>();
+
+    public Dictionary<int, Stat> ToDict()
+    {
+        Dictionary<int, Stat> statDict = new Dictionary<int, Stat>();
+
+        foreach (Stat stat in stats)
+        {
+            statDict.Add(stat.level, stat);
+        }
+
+        return statDict;
+    }
 }

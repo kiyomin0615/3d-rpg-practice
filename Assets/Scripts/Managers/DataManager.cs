@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IData<Key, Value>
+{
+    Dictionary<Key, Value> ToDict();
+}
+
 public class DataManager
 {
-    public Dictionary<int, Stat> statDict = new Dictionary<int, Stat>();
+    public Dictionary<int, Stat> StatDict { get; private set; } = new Dictionary<int, Stat>();
 
     public void Init()
     {
-        TextAsset textAsset = Manager.Resource.Load<TextAsset>("Data/StatData");
-        StatData statData = JsonUtility.FromJson<StatData>(textAsset.text); // Deserialize
+        StatDict = LoadAndParseJson<StatData, int, Stat>("StatData").ToDict();
+    }
 
-        foreach (Stat stat in statData.stats)
-        {
-            statDict.Add(stat.level, stat);
-        }
+    Data LoadAndParseJson<Data, Key, Value>(string path) where Data : IData<Key, Value>
+    {
+        TextAsset textAsset = Manager.Resource.Load<TextAsset>($"Data/{path}");
+        Data data = JsonUtility.FromJson<Data>(textAsset.text); // Deserialize
+        return data;
     }
 }
