@@ -28,4 +28,10 @@ public class Definition
         Lobby,
         Game,
     }
+
+    public enum AudioType
+    {
+        BGM,
+        SFX,
+    }
 }

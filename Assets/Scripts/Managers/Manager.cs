@@ -55,6 +55,16 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Audio Manager
+    private AudioManager audio = new AudioManager();
+    public static AudioManager Audio
+    {
+        get
+        {
+            return Instance.audio;
+        }
+    }
+
     void Start()
     {
         Init();
@@ -75,5 +85,7 @@ public class Manager : MonoBehaviour
         }
         DontDestroyOnLoad(manager);
         instance = manager.GetComponent<Manager>();
+
+        instance.audio.Init();
     }
 }
