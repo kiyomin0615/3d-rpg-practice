@@ -6,6 +6,7 @@ public class AudioManager
 {
     const int AudioTypeCount = 2;
     AudioSource[] sources = new AudioSource[AudioTypeCount];
+    Dictionary<string, AudioClip> clipDict = new Dictionary<string, AudioClip>();
 
     public void Init()
     {
@@ -27,7 +28,7 @@ public class AudioManager
         }
     }
 
-    public void Play(Definition.AudioType type, string path, float pitch = 1.0f)
+    public void Play(string path, Definition.AudioType type = Definition.AudioType.SFX, float pitch = 1.0f)
     {
         if (path.Contains("Audios/") == false)
             path = $"Audios/{path}";
@@ -41,12 +42,18 @@ public class AudioManager
                 return;
             }
 
-            // TODO : Play BGM
+            AudioSource source = sources[(int)Definition.AudioType.BGM];
 
+            if (source.isPlaying == true)
+                source.Stop();
+
+            source.clip = clip;
+            source.pitch = pitch;
+            source.Play();
         }
         else
         {
-            AudioClip clip = Manager.Resource.Load<AudioClip>(path);
+            AudioClip clip = GetAudioClip(path);
             if (clip == null)
             {
                 Debug.Log($"Audio Clip Missing. {path}");
@@ -58,5 +65,29 @@ public class AudioManager
             source.pitch = pitch;
             source.PlayOneShot(clip);
         }
+    }
+
+    AudioClip GetAudioClip(string path)
+    {
+        AudioClip clip = null;
+
+        if (clipDict.TryGetValue(path, out clip) == false)
+        {
+            clip = Manager.Resource.Load<AudioClip>(path);
+            clipDict.Add(path, clip);
+        }
+
+        return clip;
+    }
+
+    public void Clear()
+    {
+        foreach (AudioSource source in sources)
+        {
+            source.clip = null;
+            source.Stop();
+        }
+
+        clipDict.Clear();
     }
 }

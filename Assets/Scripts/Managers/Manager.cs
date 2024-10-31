@@ -88,4 +88,12 @@ public class Manager : MonoBehaviour
 
         instance.audio.Init();
     }
+
+    public static void Clear()
+    {
+        Input.Clear();
+        Audio.Clear();
+        Scene.Clear();
+        UI.Clear();
+    }
 }

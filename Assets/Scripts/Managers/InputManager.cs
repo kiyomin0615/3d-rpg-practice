@@ -30,4 +30,9 @@ public class InputManager
             pressed = false;
         }
     }
+
+    public void Clear()
+    {
+        MouseAction = null;
+    }
 }
