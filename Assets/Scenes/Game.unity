@@ -497,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4735269454256516859, guid: d0aa34f5cb278924187f44610a303d09, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: UnityChan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

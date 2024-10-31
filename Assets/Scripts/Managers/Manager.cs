@@ -65,6 +65,16 @@ public class Manager : MonoBehaviour
         }
     }
 
+    // Pool Manager
+    private PoolManager pool = new PoolManager();
+    public static PoolManager Pool
+    {
+        get
+        {
+            return Instance.pool;
+        }
+    }
+
     void Start()
     {
         Init();
