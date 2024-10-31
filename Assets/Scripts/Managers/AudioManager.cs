@@ -30,20 +30,18 @@ public class AudioManager
 
     public void Play(string path, Definition.AudioType type = Definition.AudioType.SFX, float pitch = 1.0f)
     {
-        if (path.Contains("Audios/") == false)
-            path = $"Audios/{path}";
+        AudioClip clip = GetAudioClip(path, type);
+        Play(clip, type, pitch);
+    }
+
+    public void Play(AudioClip clip, Definition.AudioType type = Definition.AudioType.SFX, float pitch = 1.0f)
+    {
+        if (clip == null)
+            return;
 
         if (type == Definition.AudioType.BGM)
         {
-            AudioClip clip = Manager.Resource.Load<AudioClip>(path);
-            if (clip == null)
-            {
-                Debug.Log($"Audio Clip Missing. {path}");
-                return;
-            }
-
             AudioSource source = sources[(int)Definition.AudioType.BGM];
-
             if (source.isPlaying == true)
                 source.Stop();
 
@@ -53,29 +51,34 @@ public class AudioManager
         }
         else
         {
-            AudioClip clip = GetAudioClip(path);
-            if (clip == null)
-            {
-                Debug.Log($"Audio Clip Missing. {path}");
-                return;
-            }
-
             AudioSource source = sources[(int)Definition.AudioType.SFX];
-
             source.pitch = pitch;
             source.PlayOneShot(clip);
         }
     }
 
-    AudioClip GetAudioClip(string path)
+    AudioClip GetAudioClip(string path, Definition.AudioType type = Definition.AudioType.SFX)
     {
+        if (path.Contains("Audios/") == false)
+            path = $"Audios/{path}";
+
         AudioClip clip = null;
 
-        if (clipDict.TryGetValue(path, out clip) == false)
+        if (type == Definition.AudioType.BGM)
         {
             clip = Manager.Resource.Load<AudioClip>(path);
-            clipDict.Add(path, clip);
         }
+        else
+        {
+            if (clipDict.TryGetValue(path, out clip) == false)
+            {
+                clip = Manager.Resource.Load<AudioClip>(path);
+                clipDict.Add(path, clip);
+            }
+        }
+
+        if (clip == null)
+            Debug.Log($"Audio Clip Missing. {path}");
 
         return clip;
     }
