@@ -15,6 +15,12 @@ public class GameScene : BaseScene
 
         SceneType = Definition.SceneType.Game;
         Manager.UI.OpenSceneUI<UI_Inventory>();
+
+        // temp
+        for (int i = 0; i < 10; i++)
+        {
+            Manager.Resource.Instantiate("UnityChan");
+        }
     }
 
     public override void Clear()

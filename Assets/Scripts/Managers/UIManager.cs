@@ -14,9 +14,9 @@ public class UIManager
     {
         get
         {
-            GameObject root = GameObject.Find("UI_Root");
+            GameObject root = GameObject.Find("@UIRoot");
             if (root == null)
-                root = new GameObject() { name = "UI_Root" };
+                root = new GameObject() { name = "@UIRoot" };
             return root;
         }
     }

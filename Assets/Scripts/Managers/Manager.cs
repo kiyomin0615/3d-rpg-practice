@@ -97,6 +97,7 @@ public class Manager : MonoBehaviour
         instance = manager.GetComponent<Manager>();
 
         instance.audio.Init();
+        instance.pool.Init();
     }
 
     public static void Clear()
@@ -105,6 +106,7 @@ public class Manager : MonoBehaviour
         Audio.Clear();
         Scene.Clear();
         UI.Clear();
+
         Pool.Clear();
     }
 }

@@ -40,7 +40,7 @@ public class Pool
         poolableStack.Push(poolable);
     }
 
-    public Poolable Pop(Transform parent)
+    public Poolable Pop(Transform parent = null)
     {
         Poolable poolable;
 
@@ -48,6 +48,10 @@ public class Pool
             poolable = poolableStack.Pop();
         else
             poolable = CreatePoolable();
+
+        // DontDestroyOnLoad를 막기 위한 트릭
+        if (parent == null)
+            poolable.transform.parent = Manager.Scene.CurrentScene.transform;
 
         poolable.transform.parent = parent;
         poolable.gameObject.SetActive(true);
