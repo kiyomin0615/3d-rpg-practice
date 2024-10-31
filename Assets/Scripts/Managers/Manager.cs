@@ -56,12 +56,12 @@ public class Manager : MonoBehaviour
     }
 
     // Audio Manager
-    private AudioManager audio = new AudioManager();
+    private AudioManager audioManager = new AudioManager();
     public static AudioManager Audio
     {
         get
         {
-            return Instance.audio;
+            return Instance.audioManager;
         }
     }
 
@@ -72,6 +72,16 @@ public class Manager : MonoBehaviour
         get
         {
             return Instance.pool;
+        }
+    }
+
+    // Data Manager
+    private DataManager data = new DataManager();
+    public static DataManager Data
+    {
+        get
+        {
+            return Instance.data;
         }
     }
 
@@ -87,17 +97,21 @@ public class Manager : MonoBehaviour
 
     static void Init()
     {
-        GameObject manager = GameObject.Find("@Manager");
-        if (manager == null)
+        if (instance == null)
         {
-            manager = new GameObject("@Manager");
-            manager.AddComponent<Manager>();
-        }
-        DontDestroyOnLoad(manager);
-        instance = manager.GetComponent<Manager>();
+            GameObject manager = GameObject.Find("@Manager");
+            if (manager == null)
+            {
+                manager = new GameObject("@Manager");
+                manager.AddComponent<Manager>();
+            }
+            DontDestroyOnLoad(manager);
+            instance = manager.GetComponent<Manager>();
 
-        instance.audio.Init();
-        instance.pool.Init();
+            instance.audioManager.Init();
+            instance.pool.Init();
+            instance.data.Init();
+        }
     }
 
     public static void Clear()
