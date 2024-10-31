@@ -105,5 +105,6 @@ public class Manager : MonoBehaviour
         Audio.Clear();
         Scene.Clear();
         UI.Clear();
+        Pool.Clear();
     }
 }
